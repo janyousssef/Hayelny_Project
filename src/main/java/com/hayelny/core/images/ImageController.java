@@ -1,6 +1,5 @@
 package com.hayelny.core.images;
 
-import com.hayelny.core.diagnosis.DiagnosisRepo;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +14,9 @@ import java.nio.file.Path;
 @RequestMapping(value = "/images")
 public class ImageController {
     private final StorageService storageService;
-    private final DiagnosisRepo diagnosisRepo;
-    private final ImageRepo imageRepo;
 
-    public ImageController(StorageService storageService, DiagnosisRepo diagnosisRepo, ImageRepo imageRepo) {
+    public ImageController(StorageService storageService) {
         this.storageService = storageService;
-        this.diagnosisRepo = diagnosisRepo;
-        this.imageRepo = imageRepo;
     }
 
     @PostMapping(value = "", consumes = "multipart/form-data")
