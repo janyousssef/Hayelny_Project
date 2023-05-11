@@ -1,14 +1,6 @@
 package com.hayelny.core.patient;
 
-import jakarta.persistence.Embeddable;
-import lombok.Getter;
-import lombok.ToString;
-import org.hibernate.annotations.EmbeddableInstantiator;
-
-@Embeddable
-@ToString
-@Getter
-@EmbeddableInstantiator(GenderInstantiator.class)
+//@Embeddable
 public enum Gender {
     MALE, FEMALE
 }

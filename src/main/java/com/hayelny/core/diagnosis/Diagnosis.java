@@ -21,10 +21,10 @@ public class Diagnosis {
     @Id
     @GeneratedValue
     private Long id;
-    private Double confidence;
-    @Embedded
     @Enumerated(EnumType.STRING)
     private Judgement judgement;
+    private Double confidence;
+    @Enumerated(EnumType.STRING)
     private DiagnosisStatus status;
     @CreationTimestamp
     private LocalDateTime createdAt;

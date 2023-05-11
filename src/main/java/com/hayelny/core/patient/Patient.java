@@ -2,8 +2,8 @@ package com.hayelny.core.patient;
 
 import com.hayelny.core.diagnosis.Diagnosis;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,9 +13,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Data
 @NoArgsConstructor
 @Entity
+@Setter
 public class Patient {
     @Id
     @Column(name = "patient_id")
@@ -28,7 +28,6 @@ public class Patient {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime modifiedAt;
-    @Embedded
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
