@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class XrayImage {
     @Id
-    @GeneratedValue
-    private Long id;
+    private  Long id;
     private String imagePath;
 
 }
