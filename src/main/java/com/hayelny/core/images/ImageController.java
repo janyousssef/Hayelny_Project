@@ -1,26 +1,44 @@
 package com.hayelny.core.images;
 
+import com.hayelny.core.diagnosis.DiagnosisRepo;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 
-@Controller
+@RestController
 @RequestMapping(value = "/images")
 public class ImageController {
-    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    private final StorageService storageService;
+    private final DiagnosisRepo diagnosisRepo;
+    private final ImageRepo imageRepo;
+
+    public ImageController(StorageService storageService, DiagnosisRepo diagnosisRepo, ImageRepo imageRepo) {
+        this.storageService = storageService;
+        this.diagnosisRepo = diagnosisRepo;
+        this.imageRepo = imageRepo;
+    }
+
+    @PostMapping(value = "", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) throws IOException {
-        System.out.println(image.getContentType());
-        image.transferTo(Path.of("../images/" + Arrays.hashCode(image.getBytes()) + ".png"));
-        return ResponseEntity.created(URI.create("/images/1"))
-                .build();
+
+        int imageId = storageService.storeImageAsLocalFile(image);
+        storageService.persistInDB(imageId);
+        return ResponseEntity.status(201)
+                .body("http://localhost:8080/images/" + imageId);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getImages(@PathVariable String id) throws IOException {
+        byte[] bytes = Files.readAllBytes(Path.of(".." + File.separator + "images" + File.separator + id + ".png"));
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(bytes);
     }
 
 }
