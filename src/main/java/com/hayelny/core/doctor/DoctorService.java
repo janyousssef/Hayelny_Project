@@ -3,7 +3,9 @@ package com.hayelny.core.doctor;
 import com.hayelny.core.patient.Patient;
 import com.hayelny.core.patient.PatientRepo;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DoctorService {
     private final PatientRepo patientRepo;
     private final DoctorRepo doctorRepo;
