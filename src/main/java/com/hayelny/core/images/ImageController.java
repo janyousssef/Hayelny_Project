@@ -1,5 +1,9 @@
 package com.hayelny.core.images;
 
+import com.hayelny.core.diagnosis.Diagnosis;
+import com.hayelny.core.diagnosis.DiagnosisDTO;
+import com.hayelny.core.diagnosis.DiagnosisRepo;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +18,11 @@ import java.nio.file.Path;
 @RequestMapping(value = "/images")
 public class ImageController {
     private final StorageService storageService;
+    private final DiagnosisRepo diagnosisRepo;
 
-    public ImageController(StorageService storageService) {
+    public ImageController(StorageService storageService, DiagnosisRepo diagnosisRepo) {
         this.storageService = storageService;
+        this.diagnosisRepo = diagnosisRepo;
     }
 
     @PostMapping(value = "", consumes = "multipart/form-data")
@@ -34,6 +40,14 @@ public class ImageController {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .body(bytes);
+    }
+
+    @GetMapping(value = "/{id}/diagnosis")
+    public DiagnosisDTO getDiagnosis(@PathVariable Long id) {
+        Diagnosis diagnosis = diagnosisRepo.findByImage_Id(id)
+                .orElseThrow(() -> new EntityNotFoundException("No diagnosis for image with id = " + id + " found."));
+
+        return DiagnosisDTO.from(diagnosis);
     }
 
 }
