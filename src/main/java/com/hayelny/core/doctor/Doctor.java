@@ -1,10 +1,10 @@
-package com.hayelny.core.patient;
+package com.hayelny.core.doctor;
 
-import com.hayelny.core.diagnosis.Diagnosis;
-import com.hayelny.core.doctor.Doctor;
+import com.hayelny.core.patient.Gender;
+import com.hayelny.core.patient.Patient;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,16 +14,16 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@NoArgsConstructor
 @Entity
-@Setter
-public class Patient {
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    Doctor doctor;
+@Data
+@NoArgsConstructor
+public class Doctor {
+
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    Set<Patient> patients = new HashSet<>();
 
     @Id
-    @Column(name = "patient_id")
+    @Column(name = "doctor_id")
     @GeneratedValue
     private Long id;
     private String firstName;
@@ -36,17 +36,22 @@ public class Patient {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
-    private Set<Diagnosis> diagnoses = new HashSet<>();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Doctor doctor = (Doctor) o;
+        return Objects.equals(id, doctor.id);
+    }
 
-    public void addDiagnosis(Diagnosis d) {
-        diagnoses.add(d);
-        d.setPatient(this);
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        return "Patient{" +
+        return "Doctor{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -55,18 +60,5 @@ public class Patient {
                 ", modifiedAt=" + modifiedAt +
                 ", gender=" + gender +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Patient patient = (Patient) o;
-        return Objects.equals(id, patient.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }
