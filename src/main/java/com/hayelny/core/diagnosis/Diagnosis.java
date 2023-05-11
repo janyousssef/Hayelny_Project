@@ -29,6 +29,8 @@ public class Diagnosis {
     private Double confidence;
     @Enumerated(EnumType.STRING)
     private DiagnosisStatus status;
+    @Enumerated(EnumType.STRING)
+    private Disease disease;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
