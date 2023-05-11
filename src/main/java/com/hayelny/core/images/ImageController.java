@@ -30,8 +30,9 @@ public class ImageController {
 
         int imageId = storageService.storeImageAsLocalFile(image);
         storageService.persistInDB(imageId);
+	String location = "http://localhost:8080/images/" + imageId;
         return ResponseEntity.status(201)
-                .body("http://localhost:8080/images/" + imageId);
+                .body(location);
     }
 
     @GetMapping(value = "/{id}")
