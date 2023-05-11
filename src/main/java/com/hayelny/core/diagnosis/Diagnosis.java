@@ -1,5 +1,6 @@
 package com.hayelny.core.diagnosis;
 
+import com.hayelny.core.images.XrayImage;
 import com.hayelny.core.patient.Patient;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -14,11 +15,12 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 public class Diagnosis {
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private XrayImage image;
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
-    String imagePath;
-
     @Id
     @GeneratedValue
     private Long id;
