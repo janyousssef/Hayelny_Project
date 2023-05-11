@@ -1,10 +1,12 @@
 package com.hayelny.core.diagnosis;
 
 import jakarta.persistence.Embeddable;
-import lombok.ToString;
+import lombok.Getter;
+import org.hibernate.annotations.EmbeddableInstantiator;
 
 @Embeddable
-@ToString
+@Getter
+@EmbeddableInstantiator(JudgementInstantiator.class)
 public enum Judgement {
     POSITIVE, NEGATIVE;
 }
