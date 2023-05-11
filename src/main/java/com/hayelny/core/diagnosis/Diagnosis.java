@@ -17,6 +17,7 @@ public class Diagnosis {
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
+    String imagePath;
 
     @Id
     @GeneratedValue

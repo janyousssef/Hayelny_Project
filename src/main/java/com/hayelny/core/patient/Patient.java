@@ -3,6 +3,7 @@ package com.hayelny.core.patient;
 import com.hayelny.core.diagnosis.Diagnosis;
 import com.hayelny.core.doctor.Doctor;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Setter
+@Getter
 public class Patient {
     @ManyToOne
     @JoinColumn(name = "doctor_id")
