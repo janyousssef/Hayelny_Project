@@ -1,7 +1,7 @@
 package com.hayelny.core.diagnosis;
 
-public record DiagnosisDTO(Long imageId, Long patientId, Long diagnosisId,String disease, String judgement, String confidence,
-                           String status) {
+public record DiagnosisDTO(Long imageId, Long patientId, Long diagnosisId, String disease, String judgement, String confidence,
+                           String diagnosisStatus) {
     public static DiagnosisDTO from(Diagnosis diagnosis) {
         return new DiagnosisDTO(diagnosis.getImage().getId(),
                                 diagnosis.getPatient() == null ? null : diagnosis.getPatient().getId(),
