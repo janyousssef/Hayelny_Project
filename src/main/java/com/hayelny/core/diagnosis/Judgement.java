@@ -8,5 +8,5 @@ import org.hibernate.annotations.EmbeddableInstantiator;
 @Getter
 @EmbeddableInstantiator(JudgementInstantiator.class)
 public enum Judgement {
-    POSITIVE, NEGATIVE;
+    POSITIVE, NEGATIVE
 }

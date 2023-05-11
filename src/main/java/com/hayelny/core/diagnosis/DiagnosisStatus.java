@@ -8,5 +8,5 @@ import org.hibernate.annotations.EmbeddableInstantiator;
 @ToString
 @EmbeddableInstantiator(DiagnosisStatusInstantiator.class)
 public enum DiagnosisStatus {
-    PENDING, COMPLETED;
+    PENDING, COMPLETED
 }

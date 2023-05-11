@@ -8,8 +8,6 @@ import org.hibernate.metamodel.spi.EmbeddableInstantiator;
 import org.hibernate.metamodel.spi.ValueAccess;
 
 public class DiagnosisStatusInstantiator implements EmbeddableInstantiator {
-    Logger log = LogManager.getLogger(this.getClass()
-            .getName());
 
     public boolean isInstance(Object object, SessionFactoryImplementor sessionFactory) {
         return object instanceof Gender;

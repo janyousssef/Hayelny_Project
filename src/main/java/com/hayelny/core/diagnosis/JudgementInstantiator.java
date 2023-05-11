@@ -8,8 +8,6 @@ import org.hibernate.metamodel.spi.EmbeddableInstantiator;
 import org.hibernate.metamodel.spi.ValueAccess;
 
 public class JudgementInstantiator implements EmbeddableInstantiator {
-    Logger log = LogManager.getLogger(this.getClass()
-            .getName());
 
     @Override
     public Object instantiate(ValueAccess valueAccess, SessionFactoryImplementor sessionFactory) {
