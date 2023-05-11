@@ -1,7 +1,6 @@
 package com.hayelny.core.images;
 
-import com.hayelny.core.diagnosis.Diagnosis;
-import com.hayelny.core.diagnosis.DiagnosisRepo;
+import com.hayelny.core.diagnosis.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,17 +30,29 @@ public class StorageService {
     }
 
     public void persistInDB(int id) {
-        Diagnosis diagnosis = new Diagnosis();
         XrayImage xrayImage = new XrayImage();
         String imagePath = IMAGE_DIRECTORY + File.separator + id + ".png";
         xrayImage.setImagePath(imagePath);
         xrayImage.setId((long) id);
-        diagnosis.setImage(xrayImage);
+
+        Diagnosis diagnosis = getTestDiagnosis(xrayImage);
+
         try (ForkJoinPool pool = ForkJoinPool.commonPool()) {
             pool.execute(() -> {
                 imageRepo.save(xrayImage);
-                diagnosisRepo.save(diagnosis);
+                if (!diagnosisRepo.existsByImage_Id((long) id))
+                    diagnosisRepo.save(diagnosis);
             });
         }
+    }
+
+    private static Diagnosis getTestDiagnosis(XrayImage xrayImage) {
+        Diagnosis diagnosis = new Diagnosis();
+        diagnosis.setImage(xrayImage);
+        diagnosis.setConfidence(90D);
+        diagnosis.setJudgement(Judgement.POSITIVE);
+        diagnosis.setDisease(Disease.PNEUMONIA);
+        diagnosis.setStatus(DiagnosisStatus.COMPLETED);
+        return diagnosis;
     }
 }
