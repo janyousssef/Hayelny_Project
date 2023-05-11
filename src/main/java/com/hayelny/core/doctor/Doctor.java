@@ -36,6 +36,11 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    public void addPatient(Patient p) {
+        p.setDoctor(this);
+        patients.add(p);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
