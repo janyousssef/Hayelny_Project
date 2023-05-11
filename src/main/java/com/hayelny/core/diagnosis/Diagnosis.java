@@ -1,19 +1,46 @@
 package com.hayelny.core.diagnosis;
 
+import com.hayelny.core.patient.Patient;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Data
 @NoArgsConstructor
 public class Diagnosis {
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
     @Id
+    @GeneratedValue
     private Long id;
     private Double confidence;
     @Embedded
     @Enumerated(EnumType.STRING)
     private Judgement judgement;
     private DiagnosisStatus status;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime modifiedAt;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Diagnosis diagnosis = (Diagnosis) o;
+        return Objects.equals(id, diagnosis.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
