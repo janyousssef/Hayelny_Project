@@ -26,12 +26,11 @@ To install this project, follow these steps:
 - Clone this repository.
 - Install Java 19.
 - Install Maven.
-- Run `mvn clean install`.
-
+- Run `bash ./scripts/buildrun.sh`.
 
 ## Usage
 To use this project, follow these steps:  
-Run `mvn spring-boot:run` OR `mvn clean package && java -jar target/core-0.0.1-SNAPSHOT.jar`  
+Run `bash ./scripts/run.sh`  
 Open your browser and navigate to http://localhost:8080.
 
 ## Technologies used
