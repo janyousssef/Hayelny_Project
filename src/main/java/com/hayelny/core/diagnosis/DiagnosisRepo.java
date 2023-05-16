@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface DiagnosisRepo extends JpaRepository<Diagnosis, Long> {
-    Optional<Diagnosis> findByImage_Id(Long imageId);
+    Optional<Diagnosis> findByImage_Id(int imageId);
     Boolean existsByImage_Id(Long imageId);
 }
