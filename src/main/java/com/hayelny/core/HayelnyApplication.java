@@ -35,6 +35,7 @@ public class HayelnyApplication {
     }
 
     private static void setParallelism() {
+        //Ensure that the parallelism level is at least 4
         int availableProcessors = Runtime
                 .getRuntime()
                 .availableProcessors();
