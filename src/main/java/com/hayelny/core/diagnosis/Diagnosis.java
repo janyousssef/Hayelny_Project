@@ -16,7 +16,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Diagnosis {
     @OneToOne
-    @JoinColumn(name = "image_id")
+    @JoinColumn(name = "image_id" ,unique = true)
     private XrayImage image;
     @ManyToOne
     @JoinColumn(name = "patient_id")
