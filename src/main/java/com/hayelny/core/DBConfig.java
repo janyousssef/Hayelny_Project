@@ -11,17 +11,21 @@ public class DBConfig {
     @Profile("prod")
     @Bean
     public HikariDataSource prodDataSource() {
-    HikariDataSource ds = new HikariDataSource();
-    ds.setJdbcUrl("jdbc:postgresql://localhost:5432/hayelny");
-    ds.setUsername("postgres");
-    ds.setPassword("admin");
-    return ds;
+        HikariDataSource ds = new HikariDataSource();
+        ds.setJdbcUrl("jdbc:postgresql://localhost:5432/hayelny");
+        ds.setUsername("postgres");
+        ds.setPassword("admin");
+        ds.setMinimumIdle(2);
+        ds.setConnectionTimeout(5000);
+        return ds;
     }
     @Profile("dev")
     @Bean
     public HikariDataSource devDataSource() {
         HikariDataSource ds = new HikariDataSource();
         ds.setJdbcUrl("jdbc:postgresql://containers-us-west-4.railway.app:6845/railway");
+        ds.setConnectionTimeout(5000);
+        ds.setMinimumIdle(2);
         ds.setUsername("postgres");
         ds.setPassword("tifasvfVkycHfHRTCYcH");
         return ds;
