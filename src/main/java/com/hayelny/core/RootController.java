@@ -18,15 +18,9 @@ public class RootController {
         RootContextDTO welcomeToHayelny = new RootContextDTO("Welcome to Hayelny!");
         EntityModel<RootContextDTO> entityModel = EntityModel
                 .of(welcomeToHayelny)
-                .add(Link
-                             .of("/images")
-                             .withRel("images"))
-                .add(Link
-                             .of("/patients")
-                             .withRel("patients"))
-                .add(Link
-                             .of("/doctors")
-                             .withRel("doctors"));
+                .add(Link.of("/images").withRel("images"))
+                .add(Link.of("/patients").withRel("patients"))
+                .add(Link.of("/doctors").withRel("doctors"));
         return ResponseEntity.ok(entityModel);
     }
 }
