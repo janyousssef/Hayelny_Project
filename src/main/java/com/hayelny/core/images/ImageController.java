@@ -38,7 +38,7 @@ public class ImageController {
         var dto = new ImageDTO("Image uploaded successfully");
         EntityModel<ImageDTO> entityModel = EntityModel
                 .of(dto)
-                .add(linkTo(methodOn(ImageController.class).getImages(String.valueOf(imageId))).withRel("image"))
+                .add(linkTo(methodOn(ImageController.class).getImages(String.valueOf(imageId))).withRel("self"))
                 .add(linkTo(methodOn(ImageController.class).getDiagnosis( imageId)).withRel("diagnosis"));
         return ResponseEntity
                 .status(201)
