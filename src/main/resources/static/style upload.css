@@ -48,7 +48,8 @@ body{
 }
 
 h1 {
-	font-size: 16px;
+	margin-top: 0px;
+	font-size: 19px;
 	font-weight: 300;
 	color: #666;
 	font-weight: bolder;
@@ -62,6 +63,10 @@ h1 {
 	text-align: center;
 }
 
+.dropzone:hover {
+	background: #eee;
+	border-color: #111;
+  }
 .upload-icon {
 	margin-left: 3%;
     margin-top: 20%;
@@ -77,6 +82,7 @@ h1 {
 }
 
 .btn {
+	cursor: pointer;
 	display: block;
 	width: 140px;
 	height: 40px;
