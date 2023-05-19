@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
-	<script src="upload.js"></script>
+<!--	<script src="upload.js"></script>-->
 	<title>Upload image</title>
 </head>
 
@@ -16,10 +16,10 @@
 			<div class="title">
 				<h1>Drop file to upload</h1>
 			</div>
-			<form id="form" enctype="multipart/form-data">
+			<form id="form" enctype="multipart/form-data" method="post" action="/images">
 				<div class="dropzone">
 					<img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
-					<input id="file" type="file" multiple class="upload-input" />
+					<input id="file" type="file" name="image" class="upload-input" />
 				</div>
 				<button type="submit" class="btn" name="image">Upload file</button>
 			</form>

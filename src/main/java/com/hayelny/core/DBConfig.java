@@ -23,11 +23,11 @@ public class DBConfig {
     @Bean
     public HikariDataSource devDataSource() {
         HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl("jdbc:postgresql://containers-us-west-4.railway.app:6845/railway");
+        ds.setJdbcUrl("jdbc:postgresql://containers-us-west-195.railway.app:6691/railway");
         ds.setConnectionTimeout(5000);
         ds.setMinimumIdle(2);
         ds.setUsername("postgres");
-        ds.setPassword("tifasvfVkycHfHRTCYcH");
+        ds.setPassword("qqx10crQM8rc65if2pLZ");
         return ds;
     }
 }

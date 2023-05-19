@@ -4,6 +4,8 @@ import com.hayelny.core.diagnosis.Diagnosis;
 import com.hayelny.core.diagnosis.DiagnosisDTO;
 import com.hayelny.core.diagnosis.DiagnosisRepo;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.apache.commons.io.IOUtils;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -32,8 +36,11 @@ public class ImageController {
 
     @CrossOrigin
     @PostMapping(value = "", consumes = "multipart/form-data")
-    public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) throws IOException {
-
+    public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image, HttpServletRequest req) throws IOException, ServletException {
+        if (image == null) {
+            image = (MultipartFile) req.getAttribute("images");
+            req.getAttributeNames().asIterator().forEachRemaining(System.out::println);
+        }
         int imageId = storageService.storeImageAsLocalFile(image);
         storageService.persistInDB(imageId);
         var dto = new ImageDTO("Image uploaded successfully");

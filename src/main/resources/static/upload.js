@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             console.log(file);
         }
         image = data[0]
-        fetch("http://20.203.182.15:8080/images", {
+        fetch("http://localhost:8080/images", {
             method: "post",
             body: image,
             headers: {
