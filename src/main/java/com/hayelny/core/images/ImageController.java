@@ -30,6 +30,7 @@ public class ImageController {
         this.diagnosisRepo = diagnosisRepo;
     }
 
+    @CrossOrigin
     @PostMapping(value = "", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) throws IOException {
 
