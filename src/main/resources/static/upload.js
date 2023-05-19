@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         const data = new FormData(); //this is initialization of the form array which will contain the uploaded images
         data.append("image", inputFile.files[0]); //this is the file which u uploaded
 
-        fetch("http://localhost:8080/images", {
+        fetch("http://20.203.182.15:8080/images", {
             method: "post",
             body: data
         }).then(response => response.json())
@@ -15,7 +15,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 const halLink = data._links.diagnosis.href;
                 const halLinkSplit = halLink.split("/");
                 const id = halLinkSplit[halLinkSplit.length - 2];
-                window.location.href = "http://localhost:8080/viewresult/" + id;
+                window.location.href = "http://20.203.182.15:8080/viewresult/" + id;
             })
             .catch((error) => ("Something went wrong!", error));
     };
