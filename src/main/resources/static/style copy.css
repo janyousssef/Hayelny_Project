@@ -4,9 +4,7 @@
 	height: 300px;
 }
 body{
-	background-color: #50A9E3;
-        background-blend-mode: luminosity;
-        background-image: url('/bg.png');
+	background-image: url("bg.png");
 }
 .frame {
 	position: absolute;

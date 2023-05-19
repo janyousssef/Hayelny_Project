@@ -4,7 +4,9 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -37,5 +39,11 @@ public class RootController {
     @RequestMapping(path = "/upload")
     public String uploadImage() {
         return "upload.html";
+    }
+    @GetMapping
+    @RequestMapping(path = "/viewresult/{id}")
+    public String viewResult(@PathVariable String id, Model model) {
+        model.addAttribute("id", id);
+        return "/result.html";
     }
 }

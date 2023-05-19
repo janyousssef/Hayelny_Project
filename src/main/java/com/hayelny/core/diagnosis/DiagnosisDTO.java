@@ -36,12 +36,17 @@ public class DiagnosisDTO {
                                 diagnosis.getJudgement() == null ? null : diagnosis
                                         .getJudgement()
                                         .name(),
-                                diagnosis.getConfidence() == null ? null : diagnosis
-                                        .getConfidence()
-                                        .toString(),
+                                getConfidence(diagnosis),
                                 diagnosis.getStatus() == null ? null : diagnosis
                                         .getStatus()
                                         .name());
+    }
+
+    private static String getConfidence(Diagnosis diagnosis) {
+        Double confidence = diagnosis.getConfidence() == null ? null : diagnosis.getConfidence();
+
+        if (diagnosis.getJudgement().equals(Judgement.NEGATIVE)) confidence = 100 - confidence;
+        return confidence.toString();
     }
 
     public Long getImageId() {

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <!--    <script src="result.js"></script>-->
+    <title>Result</title>
+</head>
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
+
+    body {
+        background-color: #50A9E3;
+        background-blend-mode: luminosity;
+        background-image: url('/bg.png');
+    }
+
+    .diagnosed_image {
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
+        display: block;
+        position: inherit;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .frame {
+        margin-top: 10px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        object-fit: fill;
+        border-radius: 2px;
+        box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        background: linear-gradient(to top right, darkmagenta 0%, hotpink 100%);
+        color: #333;
+        font-family: "Open Sans", Helvetica, sans-serif;
+    }
+
+    .center {
+        position: sticky;
+        top: 15%;
+        left: 20%;
+        transform: translate(0%, -50%);
+        width: max-content;
+        height: 260px;
+        border-radius: 100px;
+        box-shadow: 8px 10px 15px 0 rgba(0, 0, 0, 0.2);
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
+
+    .title {
+        font-size: 100px;
+        width: 100%;
+        height: 50px;
+        border-bottom: 1px solid #999;
+        text-align: center;
+    }
+
+    h2 {
+        padding: 20px;
+        display: block;
+        font-size: 1.5em;
+        margin-block-start: 0.83em;
+        margin-block-end: 0.83em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+
+    h1 {
+        margin-top: -20px;
+        font-size: 50px;
+        font-weight: 300;
+        color: #666;
+    }
+
+    .dropzone {
+        width: 100px;
+        height: 80px;
+        border: 1px dashed #999;
+        border-radius: 3px;
+        text-align: center;
+    }
+
+    .upload-icon {
+        margin: 25px 2px 2px 2px;
+    }
+
+    .upload-input {
+        position: relative;
+        top: -62px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+    .btn {
+        display: block;
+        width: 140px;
+        height: 40px;
+        background: darkmagenta;
+        color: #fff;
+        border-radius: 3px;
+        border: 0;
+        box-shadow: 0 3px 0 0 hotpink;
+        transition: all 0.3s ease-in-out;
+        font-size: 14px;
+    }
+
+    .btn:hover {
+        background: rebeccapurple;
+        box-shadow: 0 3px deeppink;
+    }
+</style>
+
+<body>
+    <div class="center">
+        <div class="title">
+            <h1>Your result</h1>
+        </div>
+    </div>
+    <div class="frame">
+    </div>
+
+
+
+
+    <script>
+        const id = window.location.href.split("/").pop();
+        fetch("/images/" + id + "/diagnosis", {
+            method: "GET"
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            const result = document.querySelector(".center");
+            // result.classList.add("result");
+            const resultText = document.createElement("h2");
+            resultText.innerText = "Your result is: " + data.judgement + " for "
+                + data.disease + " we are " + data.confidence + "% confident, but you should consult a medical professional.";
+            result.appendChild(resultText);
+
+
+            const resultImage = document.createElement("img");
+            resultImage.src = "/images/" + data.imageId;
+            resultImage.classList.add("diagnosed_image");
+            const frame = document.querySelector(".frame");
+            frame.appendChild(resultImage);
+            // const container = document.querySelector(".center");
+            // container.appendChild(result);
+        });
+    </script>
+
+
+</body>
+
+</html>

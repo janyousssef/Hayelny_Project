@@ -1,29 +1,24 @@
 window.addEventListener("DOMContentLoaded", (event) => {
-    console.log("test")
     const form = document.getElementById("form"); // the form which has input field in it
     const inputFile = document.getElementById("file"); //the input field in the html file 
 
-    const data = new FormData(); //this is initialization of the form array which will contain the uploaded images 
-    const boundary = data.boundary;
     const handleSubmit = (event) => {
         event.preventDefault();
-        //this for loop gets the multiple files u uploaded 
-        for (const file of inputFile.files) {
-            data.append("files", file); //add each file to the form array initialized above
-            console.log(file);
-        }
-        image = data[0]
+        const data = new FormData(); //this is initialization of the form array which will contain the uploaded images
+        data.append("image", inputFile.files[0]); //this is the file which u uploaded
+
         fetch("http://localhost:8080/images", {
             method: "post",
-            body: image,
-            headers: {
-                "Content-Type": `multipart/form-data ; boundary=${boundary}`
-              }
-        }).then(res => {
-
-            console.log(res)
-        }).catch((error) => ("Something went wrong!", error));
+            body: data
+        }).then(response => response.json())
+            .then((data) => {
+                const halLink = data._links.diagnosis.href;
+                const halLinkSplit = halLink.split("/");
+                const id = halLinkSplit[halLinkSplit.length - 2];
+                window.location.href = "http://localhost:8080/viewresult/" + id;
+            })
+            .catch((error) => ("Something went wrong!", error));
     };
 
-    form.addEventListener("submit", handleSubmit); //this runs when u submit
+    form.addEventListener("submit", handleSubmit); //this runs when u submit
 });
