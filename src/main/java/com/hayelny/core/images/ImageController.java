@@ -4,8 +4,6 @@ import com.hayelny.core.diagnosis.Diagnosis;
 import com.hayelny.core.diagnosis.DiagnosisDTO;
 import com.hayelny.core.diagnosis.DiagnosisRepo;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,31 +33,26 @@ public class ImageController {
     @CrossOrigin
     @PostMapping(value = "", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) throws IOException {
-        int imageId = storageService.storeImageAsLocalFile(image);
-        storageService.persistInDB(imageId);
-        var dto = new ImageDTO("Image uploaded successfully");
-        EntityModel<ImageDTO> entityModel = EntityModel
-                .of(dto)
+        String imageId = storageService.persist(image);
+        ImageDTO dto = new ImageDTO("Image uploaded successfully");
+        EntityModel<ImageDTO> entityModel = EntityModel.of(dto)
                 .add(linkTo(methodOn(ImageController.class).getImages(String.valueOf(imageId))).withRel("self"))
-                .add(linkTo(methodOn(ImageController.class).getDiagnosis( imageId)).withRel("diagnosis"));
-        return ResponseEntity
-                .status(201)
+                .add(linkTo(methodOn(ImageController.class).getDiagnosis(imageId)).withRel("diagnosis"));
+        return ResponseEntity.status(201)
                 .body(entityModel);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getImages(@PathVariable String id) throws IOException {
         byte[] bytes = Files.readAllBytes(Path.of(".." + File.separator + "images" + File.separator + id + ".png"));
-        return ResponseEntity
-                .ok()
+        return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .body(bytes);
     }
 
     @GetMapping(value = "/{id}/diagnosis")
-    public DiagnosisDTO getDiagnosis(@PathVariable int id) {
-        Diagnosis diagnosis = diagnosisRepo
-                .findByImage_Id(id)
+    public DiagnosisDTO getDiagnosis(@PathVariable String id) {
+        Diagnosis diagnosis = diagnosisRepo.findByImage_Id(id)
                 .orElseThrow(() -> new EntityNotFoundException("No diagnosis for image with id = " + id + " found."));
 
         return DiagnosisDTO.from(diagnosis);

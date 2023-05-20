@@ -48,6 +48,7 @@ public class HayelnyApplication {
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
+//            System.out.println(diagnosisService.diagnose("normal"));
         };
     }
 }
