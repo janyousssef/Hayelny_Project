@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {EntityNotFoundException.class})
+    @ExceptionHandler(value = {EntityNotFoundException.class, NoSuchFileException.class})
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
         Message error = new Message("No entity with such id");
         return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
