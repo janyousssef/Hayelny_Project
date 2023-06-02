@@ -8,18 +8,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 
 @Service
 @Slf4j
-public class StorageService {
+public class ImageStorageService {
     private static final Path IMAGE_DIRECTORY = Path.of(".." + File.separator + "images");
     private final ImageRepo imageRepo;
     private final DiagnosisService diagnosisService;
 
-    public StorageService(ImageRepo imageRepo, DiagnosisService diagnosisService) {
+    public ImageStorageService(ImageRepo imageRepo, DiagnosisService diagnosisService) {
         this.imageRepo = imageRepo;
         this.diagnosisService = diagnosisService;
     }
@@ -28,6 +29,14 @@ public class StorageService {
         String imageId = this.storeImageAsLocalFile(image);
         this.persistInDB(imageId);
         return imageId;
+    }
+
+    public byte[] getImageAsBytes(String id) {
+        try {
+            return Files.readAllBytes(Path.of(".." + File.separator + "images" + File.separator + id + ".png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //this is for testing with AI model
