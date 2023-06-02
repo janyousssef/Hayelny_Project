@@ -1,7 +1,7 @@
 package com.hayelny.core;
 
 import jakarta.persistence.EntityNotFoundException;
-import java.nio.file.NoSuchFileException
+import java.nio.file.NoSuchFileException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
