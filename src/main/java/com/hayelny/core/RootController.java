@@ -9,25 +9,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-record RootContextDTO(String message) {
+record Message(String message) {
 }
 
 @Controller
 @RequestMapping(value = "/")
 public class RootController {
-    private final InternalResourceViewResolver resolver;
 
-    public RootController(InternalResourceViewResolver resolver) {
-        this.resolver = resolver;
+    public RootController() {
     }
 
     @GetMapping(path = "")
     @ResponseBody
     public ResponseEntity<?> index() {
-        RootContextDTO welcomeToHayelny = new RootContextDTO("Welcome to Hayelny!");
-        EntityModel<RootContextDTO> entityModel = EntityModel
+        Message welcomeToHayelny = new Message("Welcome to Hayelny!");
+        EntityModel<Message> entityModel = EntityModel
                 .of(welcomeToHayelny)
                 .add(Link.of("/images").withRel("images"))
                 .add(Link.of("/patients").withRel("patients"))
