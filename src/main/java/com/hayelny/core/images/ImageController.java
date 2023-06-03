@@ -17,6 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/images")
+@CrossOrigin
 public class ImageController {
     private final ImageStorageService storageService;
     private final DiagnosisRepo diagnosisRepo;
@@ -27,7 +28,6 @@ public class ImageController {
     }
 
 
-    @CrossOrigin
     @PostMapping(value = "", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) {
         String imageId = storageService.persist(image);
