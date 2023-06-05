@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+import java.util.concurrent.ForkJoinPool;
 
 @Service
 public class DiagnosisService {
@@ -19,30 +20,35 @@ public class DiagnosisService {
         this.imageRepo = imageRepo;
     }
 
-    public Diagnosis diagnose(String id) {
+    public void diagnose(final String id) {
+        Runnable runnable = () -> getDiagnosis(id);
+        try(ForkJoinPool pool = ForkJoinPool.commonPool() ) {
+            pool.execute(runnable);
+        }
 
-        Map responseJson = restTemplate.getForObject("http://localhost:8000/model?id=" + id,
+    }
+
+    private void getDiagnosis(String id) {
+        Map<?,?> responseJson = restTemplate.getForObject("http://localhost:8000/model?id=" + id,
                                                   Map.class);
         DiagnosisResponse response = new DiagnosisResponse(responseJson.get("prediction").toString(),
                                                            responseJson.get("diagnosis").toString());
-        return diagnosisRepo.findByImage_Id(id)
-                .map(diagnosis -> {
-                    diagnosis.setConfidence(response.getConfidence());
-                    diagnosis.setJudgement(response.getJudgement());
-                    diagnosis.setDisease(Disease.PNEUMONIA);
-                    diagnosis.setStatus(DiagnosisStatus.COMPLETED);
-                    return diagnosisRepo.save(diagnosis);
-                })
+        diagnosisRepo.findByImage_Id(id)
+                .map(diagnosis -> populateDiagnosis(diagnosis, response))
                 .orElseGet(() -> {
                     Diagnosis diagnosis = new Diagnosis();
                     diagnosis.setImage(imageRepo.getReferenceById(id));
-                    diagnosis.setConfidence(response.getConfidence());
-                    diagnosis.setJudgement(response.getJudgement());
-                    diagnosis.setDisease(Disease.PNEUMONIA);
-                    diagnosis.setStatus(DiagnosisStatus.COMPLETED);
+                    populateDiagnosis(diagnosis, response);
                     return diagnosisRepo.save(diagnosis);
-
                 });
+    }
+
+    private Diagnosis populateDiagnosis(Diagnosis diagnosis, DiagnosisResponse response) {
+        diagnosis.setConfidence(response.getConfidence());
+        diagnosis.setJudgement(response.getJudgement());
+        diagnosis.setDisease(Disease.PNEUMONIA);
+        diagnosis.setStatus(DiagnosisStatus.COMPLETED);
+        return diagnosisRepo.save(diagnosis);
     }
 
 }

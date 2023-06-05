@@ -18,11 +18,9 @@ import java.util.concurrent.ForkJoinPool;
 public class ImageStorageService {
     private static final Path IMAGE_DIRECTORY = Path.of(".." + File.separator + "images");
     private final ImageRepo imageRepo;
-    private final DiagnosisService diagnosisService;
 
-    public ImageStorageService(ImageRepo imageRepo, DiagnosisService diagnosisService) {
+    public ImageStorageService(ImageRepo imageRepo) {
         this.imageRepo = imageRepo;
-        this.diagnosisService = diagnosisService;
     }
 
     public String persist(MultipartFile image) {
@@ -74,7 +72,6 @@ public class ImageStorageService {
             pool.execute(() -> {
                 try {
                     imageRepo.save(xrayImage);
-                    diagnosisService.diagnose(id);
                 } catch (DataIntegrityViolationException e) {
                     log.warn("Attempted to store already existing image with id: {}",
                              id);

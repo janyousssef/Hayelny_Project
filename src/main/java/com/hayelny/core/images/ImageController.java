@@ -1,9 +1,7 @@
 package com.hayelny.core.images;
 
-import com.hayelny.core.diagnosis.Diagnosis;
-import com.hayelny.core.diagnosis.DiagnosisController;
-import com.hayelny.core.diagnosis.DiagnosisDTO;
-import com.hayelny.core.diagnosis.DiagnosisRepo;
+import com.hayelny.core.Message;
+import com.hayelny.core.diagnosis.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
@@ -20,10 +18,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class ImageController {
     private final ImageStorageService storageService;
     private final DiagnosisRepo diagnosisRepo;
+    private final DiagnosisService diagnosisService;
 
-    public ImageController(ImageStorageService storageService, DiagnosisRepo diagnosisRepo) {
+
+    public ImageController(ImageStorageService storageService, DiagnosisRepo diagnosisRepo, DiagnosisService diagnosisService) {
         this.storageService = storageService;
         this.diagnosisRepo = diagnosisRepo;
+        this.diagnosisService = diagnosisService;
     }
 
 
@@ -31,9 +32,9 @@ public class ImageController {
     @PostMapping(value = "", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) {
         String imageId = storageService.persist(image);
-        ImageDTO dto = new ImageDTO("Image uploaded successfully");
-
-        EntityModel<ImageDTO> entityModel = EntityModel.of(dto)
+        diagnosisService.diagnose(imageId);
+        Message msg = new Message("Image uploaded successfully.");
+        EntityModel<Message> entityModel = EntityModel.of(msg)
                 .add(linkTo(methodOn(ImageController.class).getImage(String.valueOf(imageId))).withRel("self"))
                 .add(linkTo(methodOn(ImageController.class).getDiagnosis(imageId)).withRel("diagnosis"));
 
