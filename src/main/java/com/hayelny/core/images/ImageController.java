@@ -17,13 +17,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping(value = "/images")
 public class ImageController {
     private final ImageStorageService storageService;
-    private final DiagnosisRepo diagnosisRepo;
     private final DiagnosisService diagnosisService;
 
 
-    public ImageController(ImageStorageService storageService, DiagnosisRepo diagnosisRepo, DiagnosisService diagnosisService) {
+    public ImageController(ImageStorageService storageService, DiagnosisService diagnosisService) {
         this.storageService = storageService;
-        this.diagnosisRepo = diagnosisRepo;
         this.diagnosisService = diagnosisService;
     }
 
@@ -52,7 +50,7 @@ public class ImageController {
 
     @GetMapping(value = "/{id}/diagnosis")
     public EntityModel<DiagnosisDTO> getDiagnosis(@PathVariable String id) {
-        Diagnosis diagnosis = diagnosisRepo.findByImage_Id(id)
+        Diagnosis diagnosis = diagnosisService.findByImageId(id)
                 .orElseThrow(() -> new EntityNotFoundException("No diagnosis for image with id = " + id + " found."));
 
         DiagnosisDTO dto = DiagnosisDTO.from(diagnosis);

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ForkJoinPool;
 
 @Service
@@ -26,6 +27,10 @@ public class DiagnosisService {
             pool.execute(runnable);
         }
 
+    }
+
+    public Optional<Diagnosis> findByImageId(String id) {
+        return diagnosisRepo.findByImage_Id(id);
     }
 
     private void getDiagnosis(String id) {
