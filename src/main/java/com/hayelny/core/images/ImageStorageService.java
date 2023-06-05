@@ -31,7 +31,7 @@ public class ImageStorageService {
 
     public byte[] getImageAsBytes(String id) {
         try {
-            return Files.readAllBytes(Path.of(".." + File.separator + "images" + File.separator + id + ".png"));
+            return Files.readAllBytes(Path.of(".." + File.separator + "images" + File.separator + id));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +53,7 @@ public class ImageStorageService {
         int id;
         try {
             id = Arrays.hashCode(image.getBytes());
-            String imagePath = IMAGE_DIRECTORY + File.separator + id + ".jpeg";
+            String imagePath = IMAGE_DIRECTORY + File.separator + id;
             image.transferTo(Path.of(imagePath));
         } catch (IOException e) {
             throw new RuntimeException(e);
