@@ -31,9 +31,9 @@ public class ImageController {
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) {
         String imageId = storageService.persist(image);
         diagnosisService.diagnose(imageId);
-        Message msg = new Message("Image uploaded successfully.");
+        Message msg = new Message(imageId);
         EntityModel<Message> entityModel = EntityModel.of(msg)
-                .add(linkTo(methodOn(ImageController.class).getImage(String.valueOf(imageId))).withRel("self"))
+                .add(linkTo(methodOn(ImageController.class).getImage(imageId)).withRel("self"))
                 .add(linkTo(methodOn(ImageController.class).getDiagnosis(imageId)).withRel("diagnosis"));
 
         return ResponseEntity.status(201)
