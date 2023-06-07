@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping(value = "/")
 public class RootController {
@@ -21,8 +23,8 @@ public class RootController {
     @ResponseBody
     public ResponseEntity<?> index() {
         Message welcomeToHayelny = new Message("Welcome to Hayelny!");
-        EntityModel<Message> entityModel = EntityModel
-                .of(welcomeToHayelny)
+        EntityModel<Map<String, String>> entityModel = EntityModel
+                .of(welcomeToHayelny.content())
                 .add(Link.of("/images").withRel("images"))
                 .add(Link.of("/patients").withRel("patients"))
                 .add(Link.of("/doctors").withRel("doctors"));

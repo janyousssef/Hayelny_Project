@@ -16,7 +16,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {EntityNotFoundException.class, NoSuchFileException.class})
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
         Message error = new Message("No entity with such id");
-        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(ex, error.content(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
 

@@ -1,6 +1,5 @@
 package com.hayelny.core.images;
 
-import com.hayelny.core.ImageUploadedMessage;
 import com.hayelny.core.Message;
 import com.hayelny.core.diagnosis.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -9,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -32,8 +33,8 @@ public class ImageController {
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) {
         String imageId = storageService.persist(image);
         diagnosisService.diagnose(imageId);
-        ImageUploadedMessage msg = new ImageUploadedMessage(imageId);
-        EntityModel<ImageUploadedMessage> entityModel = EntityModel.of(msg)
+        Message msg = new Message("id",imageId);
+        EntityModel<Map<String, String>> entityModel = EntityModel.of(msg.content())
                 .add(linkTo(methodOn(ImageController.class).getImage(imageId)).withRel("self"))
                 .add(linkTo(methodOn(ImageController.class).getDiagnosis(imageId)).withRel("diagnosis"));
 
