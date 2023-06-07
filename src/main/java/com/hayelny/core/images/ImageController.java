@@ -1,5 +1,6 @@
 package com.hayelny.core.images;
 
+import com.hayelny.core.ImageUploadedMessage;
 import com.hayelny.core.Message;
 import com.hayelny.core.diagnosis.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -31,8 +32,8 @@ public class ImageController {
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) {
         String imageId = storageService.persist(image);
         diagnosisService.diagnose(imageId);
-        Message msg = new Message(imageId);
-        EntityModel<Message> entityModel = EntityModel.of(msg)
+        ImageUploadedMessage msg = new ImageUploadedMessage(imageId);
+        EntityModel<ImageUploadedMessage> entityModel = EntityModel.of(msg)
                 .add(linkTo(methodOn(ImageController.class).getImage(imageId)).withRel("self"))
                 .add(linkTo(methodOn(ImageController.class).getDiagnosis(imageId)).withRel("diagnosis"));
 
