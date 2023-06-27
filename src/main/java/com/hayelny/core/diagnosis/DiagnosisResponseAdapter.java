@@ -14,6 +14,7 @@ public class DiagnosisResponseAdapter {
     Diagnosis getNewDiagnosisFor(String id) {
         Map<?, ?> responseJson = restTemplate.getForObject("http://localhost:8000/model?id=" + id,
                                                            Map.class);
+        assert responseJson != null;
         DiagnosisResponse diagnosisResponse = new DiagnosisResponse(responseJson.get("prediction").toString(),
                                                                     responseJson.get("diagnosis").toString());
         return createDiagnosisFrom(diagnosisResponse);
