@@ -68,16 +68,16 @@ public class ImageStorageService {
         xrayImage.setImagePath(imagePath);
         xrayImage.setId(id);
 
-
+        Runnable uploadToDb = () -> {
+            try {
+                imageRepo.save(xrayImage);
+            } catch (DataIntegrityViolationException e) {
+                log.warn("Attempted to store already existing image with id: {}",
+                         id);
+            }
+        };
         try (ForkJoinPool pool = ForkJoinPool.commonPool()) {
-            pool.execute(() -> {
-                try {
-                    imageRepo.save(xrayImage);
-                } catch (DataIntegrityViolationException e) {
-                    log.warn("Attempted to store already existing image with id: {}",
-                             id);
-                }
-            });
+            pool.execute(uploadToDb);
         }
     }
 }
