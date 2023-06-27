@@ -34,10 +34,11 @@ public class ImageController {
     @PostMapping(value = "", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) {
         String imageId = storageService.persist(image);
+
+        //return value is ignored because we just return the imageId (el front 3ayez kda)
         diagnosisService.diagnose(imageId);
-
-
         Message msg = new Message("id",imageId);
+
         //Add links to the response
         EntityModel<Map<String, String>> entityModel = EntityModel.of(msg.content())
                 .add(linkTo(methodOn(ImageController.class).getImage(imageId)).withRel("self"))
