@@ -9,10 +9,10 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class DiagnosisResponseAdapter {
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate httpClient = new RestTemplate();
 
     Diagnosis getNewDiagnosisFor(String imageId) {
-        Map<?, ?> responseJson = restTemplate.getForObject("http://localhost:8000/model?id=" + imageId, Map.class);
+        Map<?, ?> responseJson = httpClient.getForObject("http://localhost:8000/model?id=" + imageId, Map.class);
 
         assert responseJson != null;
                                                                     //prediction field is the confidence, bad name
