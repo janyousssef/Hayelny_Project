@@ -33,7 +33,10 @@ public class ImageController {
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile image) {
         String imageId = storageService.persist(image);
         diagnosisService.diagnose(imageId);
+
+
         Message msg = new Message("id",imageId);
+        //Add links to the response
         EntityModel<Map<String, String>> entityModel = EntityModel.of(msg.content())
                 .add(linkTo(methodOn(ImageController.class).getImage(imageId)).withRel("self"))
                 .add(linkTo(methodOn(ImageController.class).getDiagnosis(imageId)).withRel("diagnosis"));
@@ -52,8 +55,7 @@ public class ImageController {
 
     @GetMapping(value = "/{id}/diagnosis")
     public EntityModel<DiagnosisDTO> getDiagnosis(@PathVariable String id) {
-        Diagnosis diagnosis = diagnosisService.findByImageId(id)
-                .orElseThrow(() -> new EntityNotFoundException("No diagnosis for image with id = " + id + " found."));
+        Diagnosis diagnosis = diagnosisService.findByImageId(id);
 
         DiagnosisDTO dto = DiagnosisDTO.from(diagnosis);
         EntityModel<DiagnosisDTO> entityModel = EntityModel.of(dto);
