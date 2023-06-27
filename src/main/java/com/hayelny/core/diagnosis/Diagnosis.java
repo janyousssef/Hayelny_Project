@@ -15,7 +15,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 public class Diagnosis {
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id" ,unique = true)
     private XrayImage image;
     @ManyToOne
