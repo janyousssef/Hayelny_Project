@@ -1,8 +1,10 @@
 package com.hayelny.core.images;
 
 import com.hayelny.core.Message;
-import com.hayelny.core.diagnosis.*;
-import jakarta.persistence.EntityNotFoundException;
+import com.hayelny.core.diagnosis.Diagnosis;
+import com.hayelny.core.diagnosis.DiagnosisController;
+import com.hayelny.core.diagnosis.DiagnosisDTO;
+import com.hayelny.core.diagnosis.DiagnosisService;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
