@@ -11,10 +11,11 @@ import java.util.Map;
 public class DiagnosisResponseAdapter {
     private final RestTemplate restTemplate = new RestTemplate();
 
-    Diagnosis getNewDiagnosisFor(String id) {
-        Map<?, ?> responseJson = restTemplate.getForObject("http://localhost:8000/model?id=" + id,
-                                                           Map.class);
+    Diagnosis getNewDiagnosisFor(String imageId) {
+        Map<?, ?> responseJson = restTemplate.getForObject("http://localhost:8000/model?id=" + imageId, Map.class);
+
         assert responseJson != null;
+                                                                    //prediction field is the confidence, bad name
         DiagnosisResponse diagnosisResponse = new DiagnosisResponse(responseJson.get("prediction").toString(),
                                                                     responseJson.get("diagnosis").toString());
         return createDiagnosisFrom(diagnosisResponse);
