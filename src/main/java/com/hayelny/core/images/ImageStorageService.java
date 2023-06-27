@@ -1,6 +1,10 @@
 package com.hayelny.core.images;
 
-import com.hayelny.core.diagnosis.*;
+import com.hayelny.core.diagnosis.Diagnosis;
+import com.hayelny.core.diagnosis.DiagnosisStatus;
+import com.hayelny.core.diagnosis.Disease;
+import com.hayelny.core.diagnosis.Judgement;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -15,13 +19,10 @@ import java.util.concurrent.ForkJoinPool;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ImageStorageService {
     private static final Path IMAGE_DIRECTORY = Path.of(".." + File.separator + "images");
     private final ImageRepo imageRepo;
-
-    public ImageStorageService(ImageRepo imageRepo) {
-        this.imageRepo = imageRepo;
-    }
 
     public String persist(MultipartFile image) {
         String imageId = this.storeImageAsLocalFile(image);
@@ -37,7 +38,7 @@ public class ImageStorageService {
         }
     }
 
-    //this is for testing with AI model
+    //this is for testing without AI model
     private static Diagnosis getTestDiagnosis(XrayImage xrayImage) {
         Diagnosis diagnosis = new Diagnosis();
         diagnosis.setImage(xrayImage);
@@ -63,7 +64,7 @@ public class ImageStorageService {
 
     private void persistInDB(String id) {
         XrayImage xrayImage = new XrayImage();
-        String imagePath = IMAGE_DIRECTORY + File.separator + id + ".jpeg";
+        String imagePath = IMAGE_DIRECTORY + File.separator + id;
         xrayImage.setImagePath(imagePath);
         xrayImage.setId(id);
 
