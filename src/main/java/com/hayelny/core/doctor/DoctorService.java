@@ -34,7 +34,7 @@ public class DoctorService {
     /**
      * @param doctor  the id of the doctor to add the patient to
      * @param patient the id of the patient to add to the doctor
-     * @description Add patient to doctor
+     * @description: Add patient to doctor
      * @note: Both doctor and patient have to have been persisted before
      */
     public void addPatient(Doctor doctor, Patient patient) {
