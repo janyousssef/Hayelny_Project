@@ -2,6 +2,7 @@ package com.hayelny.core.diagnosis;
 
 import com.hayelny.core.images.ImageController;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +14,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping(value = "/diagnosis")
 @CrossOrigin
+@RequiredArgsConstructor
 public class DiagnosisController {
     private final DiagnosisRepo diagnosisRepo;
-
-    public DiagnosisController(DiagnosisRepo diagnosisRepo) {
-        this.diagnosisRepo = diagnosisRepo;
-    }
 
     private static Supplier<EntityNotFoundException> notFound(Long id) {
         return () -> new EntityNotFoundException("No diagnosis for image with id = " + id + " found.");

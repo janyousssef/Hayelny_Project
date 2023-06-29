@@ -3,17 +3,14 @@ package com.hayelny.core.doctor;
 import com.hayelny.core.patient.Patient;
 import com.hayelny.core.patient.PatientRepo;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class DoctorService {
     private final PatientRepo patientRepo;
     private final DoctorRepo doctorRepo;
-
-    public DoctorService(PatientRepo patientRepo, DoctorRepo doctorRepo) {
-        this.patientRepo = patientRepo;
-        this.doctorRepo = doctorRepo;
-    }
 
     public Doctor persist(Doctor doctor) {
         return doctorRepo.save(doctor);

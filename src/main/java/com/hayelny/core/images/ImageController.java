@@ -5,6 +5,7 @@ import com.hayelny.core.diagnosis.Diagnosis;
 import com.hayelny.core.diagnosis.DiagnosisController;
 import com.hayelny.core.diagnosis.DiagnosisDTO;
 import com.hayelny.core.diagnosis.DiagnosisService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping(value = "/images")
 @CrossOrigin(origins = "*",originPatterns = "*")
+@RequiredArgsConstructor
 public class ImageController {
     private final ImageStorageService storageService;
     private final DiagnosisService diagnosisService;
-
-
-    public ImageController(ImageStorageService storageService, DiagnosisService diagnosisService) {
-        this.storageService = storageService;
-        this.diagnosisService = diagnosisService;
-    }
 
 
     @PostMapping(value = "", consumes = "multipart/form-data")
