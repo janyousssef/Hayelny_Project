@@ -19,7 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/images")
-@CrossOrigin
+@CrossOrigin(origins = "*",originPatterns = "*")
 public class ImageController {
     private final ImageStorageService storageService;
     private final DiagnosisService diagnosisService;
