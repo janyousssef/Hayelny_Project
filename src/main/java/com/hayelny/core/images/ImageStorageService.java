@@ -56,6 +56,7 @@ public class ImageStorageService {
             id = Arrays.hashCode(image.getBytes());
             String imagePath = IMAGE_DIRECTORY + File.separator + id;
             image.transferTo(Path.of(imagePath));
+            ImageConverter.convertToJpeg(imagePath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
