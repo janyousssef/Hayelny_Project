@@ -3,6 +3,8 @@ package com.hayelny.core.images;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 @Service
 public class ImageConverter {
@@ -13,7 +15,7 @@ public class ImageConverter {
         //runs on linux
         CMD_ARR[3] = path;
         CMD_ARR[4] = path + ".jpg";
-        System.out.println(CMD_ARR[2]);
+        System.out.println(Arrays.toString(CMD_ARR));
         System.out.println("converting image");
         try {
             Process exec = Runtime.getRuntime().exec(CMD_ARR);
