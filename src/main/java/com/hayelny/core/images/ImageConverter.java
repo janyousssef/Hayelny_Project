@@ -16,7 +16,7 @@ public class ImageConverter {
         //requires dcmj2pnm to be installed
         //runs on linux
         String command = "dcmj2pnm +oj +Jq 95 " + path + " " + path + ".jpg";
-        CMD_ARR.add(command);
+        CMD_ARR.set(2,command);
         System.out.println(CMD_ARR);
         System.out.println("converting image");
         try {
