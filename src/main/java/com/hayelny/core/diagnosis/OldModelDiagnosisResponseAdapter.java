@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class DiagnosisResponseAdapter {
+public class OldModelDiagnosisResponseAdapter {
     private final RestTemplate httpClient = new RestTemplate();
 
     Diagnosis getNewDiagnosisFor(String imageId) {
@@ -16,13 +16,13 @@ public class DiagnosisResponseAdapter {
 
         assert responseJson != null;
                                                                     //prediction field is the confidence, bad name
-        DiagnosisResponse diagnosisResponse = new DiagnosisResponse(responseJson.get("prediction").toString(),
-                                                                    responseJson.get("diagnosis").toString());
+        OldDiagnosisResponse diagnosisResponse = new OldDiagnosisResponse(responseJson.get("prediction").toString(),
+                                                                          responseJson.get("diagnosis").toString());
         return createDiagnosisFrom(diagnosisResponse);
     }
 
 
-    Diagnosis createDiagnosisFrom(DiagnosisResponse response) {
+    Diagnosis createDiagnosisFrom(OldDiagnosisResponse response) {
         Diagnosis diagnosis = new Diagnosis();
         diagnosis.setConfidence(response.getConfidence());
         diagnosis.setJudgement(response.getJudgement());
