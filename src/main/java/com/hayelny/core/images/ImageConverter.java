@@ -12,10 +12,13 @@ public class ImageConverter {
 
     public void convertToJpeg(String path) {
         CMD_ARR[2] = CMD_ARR[2] + path + " " + path;
+        System.out.println(CMD_ARR[2]);
+        System.out.println("converting image");
         try {
             Runtime.getRuntime().exec(CMD_ARR);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("converting image done");
     }
 }
