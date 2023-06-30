@@ -15,7 +15,7 @@ public class DiagnosisService {
 
     private final DiagnosisRepo diagnosisRepo;
     private final ImageRepo imageRepo;
-    private final DiagnosisResponseAdapter diagnosisResponseAdapter;
+    private final SeverityDiagnosisResponseAdapter severityDiagnosisResponseAdapter;
 
 
     public void diagnose(final String imageId) {
@@ -37,7 +37,7 @@ public class DiagnosisService {
             return diagnosisOptional.get();
         }
 
-        Diagnosis diagnosis = diagnosisResponseAdapter.getNewDiagnosisFor(imageId);
+        Diagnosis diagnosis = severityDiagnosisResponseAdapter.getNewDiagnosisFor(imageId);
         diagnosis.setImage(imageRepo.getReferenceById(imageId));
         return diagnosisRepo.save(diagnosis);
     }

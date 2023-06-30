@@ -4,16 +4,17 @@ import com.hayelny.core.images.XrayImage;
 import com.hayelny.core.patient.Patient;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Diagnosis {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id" ,unique = true)
@@ -35,17 +36,6 @@ public class Diagnosis {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime modifiedAt;
+    private String severity;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Diagnosis diagnosis = (Diagnosis) o;
-        return Objects.equals(id, diagnosis.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
