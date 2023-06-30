@@ -32,7 +32,7 @@ public class ImageController {
         String imageId = storageService.persist(image);
 
         //return value is ignored because we just return the imageId (el front 3ayez kda)
-        diagnosisService.diagnose(imageId);
+//        diagnosisService.diagnose(imageId);
         Message msg = new Message("id",imageId);
 
         //Add links to the response
