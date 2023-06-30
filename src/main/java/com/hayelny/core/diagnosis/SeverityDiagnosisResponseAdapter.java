@@ -20,7 +20,7 @@ public class SeverityDiagnosisResponseAdapter {
 
 
     Diagnosis createDiagnosisFrom(SeverityDiagnosisDTO dto, Diagnosis diagnosis) {
-        log.error("you are using temporary code at SeverityDiagnosisResponseAdapter.createDiagnosisFrom");
+        log.warn("you are using temporary code at SeverityDiagnosisResponseAdapter.createDiagnosisFrom");
         diagnosis.setConfidence(Math.random());
         diagnosis.setJudgement(Judgement.POSITIVE);
         diagnosis.setDisease(Disease.PNEUMONIA);
