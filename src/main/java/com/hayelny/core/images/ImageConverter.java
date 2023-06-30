@@ -3,18 +3,18 @@ package com.hayelny.core.images;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 @Service
 public class ImageConverter {
-    private final String[] CMD_ARR = {"/bin/bash", "-c", "dcmj2pnm +oj +Jq 95 ","",""};
+    private final String[] CMD_ARR = {"/bin/bash", "-c", "dcmj2pnm ","+oj"," +Jq ","95 ","",""};
+
 
     public void convertToJpeg(String path) {
         //requires dcmj2pnm to be installed
         //runs on linux
-        CMD_ARR[3] = path;
-        CMD_ARR[4] = path + ".jpg";
+        CMD_ARR[CMD_ARR.length-2] = path;
+        CMD_ARR[CMD_ARR.length-1] = path + ".jpg";
         System.out.println(Arrays.toString(CMD_ARR));
         System.out.println("converting image");
         try {
