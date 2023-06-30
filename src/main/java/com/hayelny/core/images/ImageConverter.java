@@ -10,10 +10,7 @@ import java.util.List;
 public class ImageConverter {
     private final List<String> CMD_ARR = new ArrayList<>(List.of("/bin/bash",
                                                                  "-c",
-                                                                 "dcmj2pnm",
-                                                                 "+oj",
-                                                                 "+Jq ",
-                                                                 "95"));
+                                                                 "dcmj2pnm +oj +Jq 95"));
 
 
     public void convertToJpeg(String path) {
