@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 @Service
 public class ImageConverter {
-    private final String[] CMD_ARR = {"/bin/bash", "-c", "dcmj2pnm ","+oj"," +Jq ","95 ","",""};
+    private final String[] CMD_ARR = {"/bin/bash", "-c", "dcmj2pnm","+oj","+Jq ","95","",""};
 
 
     public void convertToJpeg(String path) {
