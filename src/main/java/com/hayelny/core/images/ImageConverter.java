@@ -13,9 +13,7 @@ public class ImageConverter {
                                                                  "dcmj2pnm",
                                                                  "+oj",
                                                                  "+Jq ",
-                                                                 "95",
-                                                                 "",
-                                                                 ""));
+                                                                 "95"));
 
 
     public void convertToJpeg(String path) {
