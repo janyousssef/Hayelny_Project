@@ -22,6 +22,7 @@ public class ImageStorageService {
     private final ImageConverter imageConverter;
 
     public String persist(MultipartFile image) {
+
         String imageId = this.persistLocally(image);
         this.persistInDB(imageId);
         return imageId;
@@ -36,17 +37,26 @@ public class ImageStorageService {
     }
 
     private String persistLocally(MultipartFile image) {
-
+        String filename = image.getOriginalFilename();
+        String ext = "." + filename.substring(filename.lastIndexOf("."));
+        boolean shouldConvert = ".dcm".equals(ext);
         int id;
         try {
             id = Arrays.hashCode(image.getBytes());
             String imagePath = getImagePath(String.valueOf(id));
-            image.transferTo(Path.of(imagePath));
-            imageConverter.convertToJpeg(imagePath);
+            if (shouldConvert) {
+                image.transferTo(Path.of(imagePath));
+                //converter takes care of adding .jpg
+                imageConverter.convertToJpeg(imagePath);
+            }
+            else {
+                image.transferTo(Path.of(imagePath+".jpg"));
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return String.valueOf(id);
+
+        return id + ".jpg";
     }
 
     private void persistInDB(String id) {
