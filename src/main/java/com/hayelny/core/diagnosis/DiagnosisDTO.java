@@ -11,8 +11,9 @@ public class DiagnosisDTO {
     private final String judgement;
     private final String confidence;
     private final String diagnosisStatus;
+    private final String severity;
 
-    public DiagnosisDTO(String imageId, Long patientId, Long diagnosisId, String disease, String judgement, String confidence, String diagnosisStatus) {
+    public DiagnosisDTO(String imageId, Long patientId, Long diagnosisId, String disease, String judgement, String confidence, String diagnosisStatus, String severity) {
         this.imageId = imageId;
         this.patientId = patientId;
         this.diagnosisId = diagnosisId;
@@ -20,21 +21,18 @@ public class DiagnosisDTO {
         this.judgement = judgement;
         this.confidence = confidence;
         this.diagnosisStatus = diagnosisStatus;
+        this.severity = severity;
     }
 
     public static DiagnosisDTO from(Diagnosis diagnosis) {
-        return new DiagnosisDTO(diagnosis.getImage()
-                                        .getId(),
-                                diagnosis.getPatient() == null ? null : diagnosis.getPatient()
-                                        .getId(),
+        return new DiagnosisDTO(diagnosis.getImage().getId(),
+                                diagnosis.getPatient() == null ? null : diagnosis.getPatient().getId(),
                                 diagnosis.getId(),
-                                diagnosis.getDisease() == null ? null : diagnosis.getDisease()
-                                        .name(),
-                                diagnosis.getJudgement() == null ? null : diagnosis.getJudgement()
-                                        .name(),
+                                diagnosis.getDisease() == null ? null : diagnosis.getDisease().name(),
+                                diagnosis.getJudgement() == null ? null : diagnosis.getJudgement().name(),
                                 getConfidence(diagnosis),
-                                diagnosis.getStatus() == null ? null : diagnosis.getStatus()
-                                        .name());
+                                diagnosis.getStatus() == null ? null : diagnosis.getStatus().name(),
+                                diagnosis.getSeverity());
     }
 
 
