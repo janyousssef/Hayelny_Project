@@ -1,9 +1,5 @@
 package com.hayelny.core.images;
 
-import com.hayelny.core.diagnosis.Diagnosis;
-import com.hayelny.core.diagnosis.DiagnosisStatus;
-import com.hayelny.core.diagnosis.Disease;
-import com.hayelny.core.diagnosis.Judgement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,9 +19,10 @@ import java.util.concurrent.ForkJoinPool;
 public class ImageStorageService {
     private static final Path IMAGE_DIRECTORY = Path.of(".." + File.separator + "images");
     private final ImageRepo imageRepo;
+    private final ImageConverter imageConverter;
 
     public String persist(MultipartFile image) {
-        String imageId = this.storeImageAsLocalFile(image);
+        String imageId = this.persistLocally(image);
         this.persistInDB(imageId);
         return imageId;
     }
@@ -38,25 +35,14 @@ public class ImageStorageService {
         }
     }
 
-    //this is for testing without AI model
-    private static Diagnosis getTestDiagnosis(XrayImage xrayImage) {
-        Diagnosis diagnosis = new Diagnosis();
-        diagnosis.setImage(xrayImage);
-        diagnosis.setConfidence(90D);
-        diagnosis.setJudgement(Judgement.POSITIVE);
-        diagnosis.setDisease(Disease.PNEUMONIA);
-        diagnosis.setStatus(DiagnosisStatus.COMPLETED);
-        return diagnosis;
-    }
-
-    private String storeImageAsLocalFile(MultipartFile image) {
+    private String persistLocally(MultipartFile image) {
 
         int id;
         try {
             id = Arrays.hashCode(image.getBytes());
-            String imagePath = IMAGE_DIRECTORY + File.separator + id;
+            String imagePath = getImagePath(String.valueOf(id));
             image.transferTo(Path.of(imagePath));
-            ImageConverter.convertToJpeg(imagePath);
+            imageConverter.convertToJpeg(imagePath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -65,7 +51,7 @@ public class ImageStorageService {
 
     private void persistInDB(String id) {
         XrayImage xrayImage = new XrayImage();
-        String imagePath = IMAGE_DIRECTORY + File.separator + id;
+        String imagePath = getImagePath(id);
         xrayImage.setImagePath(imagePath);
         xrayImage.setId(id);
 
@@ -80,5 +66,9 @@ public class ImageStorageService {
         try (ForkJoinPool pool = ForkJoinPool.commonPool()) {
             pool.execute(uploadToDb);
         }
+    }
+
+    private static String getImagePath(String id) {
+        return IMAGE_DIRECTORY + File.separator + id;
     }
 }
