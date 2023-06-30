@@ -46,7 +46,7 @@ public class ImageController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getImage(@PathVariable String id) {
-        byte[] bytes = storageService.getImageAsBytes(id);
+        byte[] bytes = storageService.getImageAsBytes(id+"jpg");
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(bytes);
