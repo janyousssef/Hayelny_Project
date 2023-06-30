@@ -9,15 +9,14 @@ import java.util.List;
 @Service
 public class ImageConverter {
     private final List<String> CMD_ARR = new ArrayList<>(List.of("/bin/bash",
-                                                                 "-c",
-                                                                 "dcmj2pnm +oj +Jq 95"));
+                                                                 "-c"));
 
 
     public void convertToJpeg(String path) {
         //requires dcmj2pnm to be installed
         //runs on linux
-        CMD_ARR.add(path);
-        CMD_ARR.add(path + ".jpg");
+        String command = "dcmj2pnm +oj +Jq 95"+path+ " " + path + ".jpg";
+        CMD_ARR.add(command);
         System.out.println(CMD_ARR);
         System.out.println("converting image");
         try {
