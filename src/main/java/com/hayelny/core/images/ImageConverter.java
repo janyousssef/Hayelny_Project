@@ -10,10 +10,10 @@ import java.util.List;
 public class ImageConverter {
     private final List<String> CMD_ARR = new ArrayList<>(List.of("/bin/bash",
                                                                  "-c",
-                                                                 " dcmj2pnm",
-                                                                 " +oj",
-                                                                 " +Jq ",
-                                                                 " 95",
+                                                                 "dcmj2pnm",
+                                                                 "+oj",
+                                                                 "+Jq ",
+                                                                 "95",
                                                                  "",
                                                                  ""));
 
@@ -21,8 +21,8 @@ public class ImageConverter {
     public void convertToJpeg(String path) {
         //requires dcmj2pnm to be installed
         //runs on linux
-        CMD_ARR.set(CMD_ARR.size() - 2, " "+path);
-        CMD_ARR.set(CMD_ARR.size() - 1, " " + path + ".jpg");
+        CMD_ARR.add(path);
+        CMD_ARR.add(path + ".jpg");
         System.out.println(CMD_ARR);
         System.out.println("converting image");
         try {
