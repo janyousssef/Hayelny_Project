@@ -11,7 +11,7 @@ public class ImageConverter {
     private final String[] CMD_ARR = {"/bin/bash", "-c", "dcmj2pnm +oj +Jq 95 "};
 
     public void convertToJpeg(String path) {
-        CMD_ARR[2] = CMD_ARR[2] + path + " " + path;
+        CMD_ARR[2] = CMD_ARR[2] + path + " " + path+".jpg";
         System.out.println(CMD_ARR[2]);
         System.out.println("converting image");
         try {
