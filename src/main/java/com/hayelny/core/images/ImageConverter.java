@@ -15,7 +15,7 @@ public class ImageConverter {
     public void convertToJpeg(String path) {
         //requires dcmj2pnm to be installed
         //runs on linux
-        String command = "dcmj2pnm +oj +Jq 95"+path+ " " + path + ".jpg";
+        String command = "dcmj2pnm +oj +Jq 95 " + path + " " + path + ".jpg";
         CMD_ARR.add(command);
         System.out.println(CMD_ARR);
         System.out.println("converting image");
