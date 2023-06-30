@@ -38,7 +38,7 @@ public class ImageStorageService {
 
     private String persistLocally(MultipartFile image) {
         String filename = image.getOriginalFilename();
-        String ext = "." + filename.substring(filename.lastIndexOf("."));
+        String ext = filename.substring(filename.lastIndexOf("."));
         boolean shouldConvert = ".dcm".equals(ext);
         int id;
         try {
